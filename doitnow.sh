@@ -2,7 +2,7 @@
 # doitnow.sh
 # Author: n0logic
 # Date: 05/07/2017
-# Updated: 05/07/2017
+# Updated: 05/24/2017
 # Basic quick commands for Kali system and various engagement tools.
 
 # Function mainmenu - Main Menu, first function called.
@@ -39,6 +39,7 @@ EOF
     "1")  pentools ;;
     "2")  echo "Try Harder!" ;;
     "3")  echo "Not dis time looosahhh!" ;;
+    "6")  sudo reboot;;
     "Q")  exit                      ;;
     "q")  exit                      ;;
      * )  echo "invalid option"     ;;
