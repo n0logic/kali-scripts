@@ -88,8 +88,9 @@ for output in $( cat ./iplist.txt )
  do
     echo -e "\nCreating results folder at $HOME/enumresults/$output/"
     mkdir $HOME/enumresults/$output/
-    echo -e "\nRunning nmap -sV -sC $output "
-    nmap -sV -sC "$output" > $HOME/enumresults/$output/nmap.txt
+    echo -e "\nRunning nmap -sV -sC $output in new tab"
+    foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
+    gnome-terminal tab -e "$foo"
     cat $HOME/enumresults/$output/nmap.txt
 done
 }
