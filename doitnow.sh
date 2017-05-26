@@ -123,7 +123,18 @@ done
 
 # setitupnow Function - Clone Lee Baird discover script and run update portion
 setitupnow(){
-  
+  if [ -d /opt/discover/.git ]; then
+       echo -e "\nUpdating Lee Baird Discover Script."
+       cd /opt/discover/ ; git pull
+       echo
+  else
+       echo -e "\nInstalling Lee Baird Discover Script to /opt/discover/"
+       git clone https://github.com/leebaird/discover.git /opt/discover
+       read -p "Press <enter> to continue."
+       echo
+  fi
+  bash /opt/discover/update.sh
+  mainmenu
 }
 
 # enum.sh built in woohoo
