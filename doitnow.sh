@@ -54,7 +54,7 @@ EOF
     case "$REPLY" in
     "1")  pentools ;;
     "2")  echo "Try Harder!" ;;
-    "3")  echo "Not dis time looosahhh!" ;;
+    "3")  setitup ;;
     "4")  setitup ;;
     "6")  sudo reboot;;
     "Q")  exit                      ;;
