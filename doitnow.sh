@@ -43,8 +43,8 @@ do
 
     Pentesting Tools (1)
     System Services  (2)
-    System Updates   (3)
-    Software Install (4)
+    Updates / Setup  (3)
+    something else   (4)
     Misc Options     (5)
     Reboot System    (6)
            (Q)uit
@@ -55,6 +55,7 @@ EOF
     "1")  pentools ;;
     "2")  echo "Try Harder!" ;;
     "3")  echo "Not dis time looosahhh!" ;;
+    "4")  setitup ;;
     "6")  sudo reboot;;
     "Q")  exit                      ;;
     "q")  exit                      ;;
@@ -90,6 +91,39 @@ EOF
     esac
     sleep 1
 done
+}
+
+# Option 4 - Updates / Install
+setitup(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    Software updates and setup
+    ------------------------------
+    Please enter your choice:
+
+    Lee Baird Update Script      (1)
+           (B)ack
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  setitupnow ;;
+    "B")  mainmenu ;;
+    "b")  mainmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 1
+done
+}
+
+# setitupnow Function - Clone Lee Baird discover script and run update portion
+setitupnow(){
+  
 }
 
 # enum.sh built in woohoo
