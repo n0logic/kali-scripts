@@ -138,6 +138,10 @@ setitupnow(){
        echo
   fi
   bash /opt/discover/update.sh
+  echo -e "Enter the directory doitnow is located in."
+  read -er path
+  cd $path ; git pull
+  read
   mainmenu
 }
 
