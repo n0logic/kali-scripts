@@ -139,7 +139,6 @@ setitupnow(){
 
 # enum.sh built in woohoo
 enumscript(){
-# main script begin
 i = 1
 echo -e "n0logic's Enumerate o'matic!\n"
 echo -e "This script will read iplist from current directory and enumerate\n"
@@ -159,6 +158,7 @@ for output in $( cat ./iplist.txt )
     fi
     let "i++"
 done
+pentools
 }
 
 # dirb function
@@ -166,6 +166,22 @@ e_dirb(){
   echo -e "\nRunning dirb $output "
   dirb $output > $HOME/enumresults/$output/dirb.txt
   echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$output/dirb.txt"
+  pentools
+}
+
+e_nikto(){
+  echo -e "\nEnter the webserver port:"
+  read nport
+  if ($nport = 443); then
+    echo -e "\nRunning nikto --host https://$output --port $nport"
+    nikto --host https://$output --port $nport > $HOME/enumresults/$output/nikto-https.txt
+    echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
+  else
+    echo -e "\nRunning nikto --host http://$output --port $nport"
+    nikto --host http://$output --port $nport > $HOME/enumresults/$output/nikto-http.txt
+    echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
+  fi
+  pentools
 }
 
 # enum4linux script
@@ -174,6 +190,7 @@ echo -e "\nRunning enum4linux -a $output "
 enum4linux -a $output>$HOME/enumresults/$output/enum4linux.txt
 echo -e "\nFinished with enum4linux scan! cat $HOME/enumresults/$output/enum4linux.txt"
 cat $HOME/enumresults/$output/enum4linux.txt
+pentools
 }
 
 # Run the main menu
