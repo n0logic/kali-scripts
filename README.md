@@ -1,2 +1,2 @@
 # kali-scripts
-My personal Kali Linux scripts
+The personal Kali linux scripts for besgood and n0logic. 
