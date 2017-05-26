@@ -77,12 +77,16 @@ do
     Please enter your choice:
 
     enum Script      (1)
+    dirb             (2)
+    nikto            (3)
            (B)ack
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
     "1")  enumscript ;;
+    "2")  e_dirb ;;
+    "3")  e_nikto ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -163,9 +167,11 @@ pentools
 
 # dirb function
 e_dirb(){
-  echo -e "\nRunning dirb $output "
-  dirb $output > $HOME/enumresults/$output/dirb.txt
-  echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$output/dirb.txt"
+  echo -e "\nEnter URL for dirb (eg - https://www.google.com/images/):"
+  read dirburl
+  echo -e "\nRunning dirb $dirburl "
+  dirb $dirburl > $HOME/enumresults/$dirburl/dirb.txt
+  echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$dirburl/dirb.txt"
   pentools
 }
 
