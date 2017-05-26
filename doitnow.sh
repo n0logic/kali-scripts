@@ -116,6 +116,13 @@ for output in $( cat ./iplist.txt )
 done
 }
 
+# dirb function
+e_dirb(){
+  echo -e "\nRunning dirb $output "
+  dirb $output > $HOME/enumresults/$output/dirb.txt
+  echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$output/dirb.txt"
+}
+
 # enum4linux script
 e_e4l(){
 echo -e "\nRunning enum4linux -a $output "
