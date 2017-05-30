@@ -151,6 +151,39 @@ setitupnow(){
       cd $path ; git pull
       read
   fi
+  # More added 5/30/2017
+  if [ -d /opt/DeathStar/.git ]; then
+       echo -e "\e[1;34mUpdating DeathStar.\e[0m"
+       cd /opt/DeathStar/ ; git pull
+       echo
+  else
+       echo -e "\e[1;33mInstalling DeathStar.\e[0m"
+       git clone https://github.com/byt3bl33d3r/DeathStar.git /opt/DeathStar
+       echo
+  fi
+
+  if [ -d /usr/share/wordlists/SecLists/.git ]; then
+       echo -e "\e[1;34mUpdating SecLists Password Lists.\e[0m"
+       cd /usr/share/wordlists/SecLists/ ; git pull
+       echo
+  else
+       echo -e "\e[1;33mInstalling SecLists Password Lists.\e[0m"
+       git clone https://github.com/danielmiessler/SecLists.git /usr/share/wordlists/SecLists
+       echo
+  fi
+
+  if [ -d /opt/fluxion/.git ]; then
+       echo -e "\e[1;34mUpdating fluxion WiFi Hacking Toolkit.\e[0m"
+       cd /opt/fluxion/ ; git pull
+       echo
+  else
+       echo -e "\e[1;33mInstalling fluxion WiFi Hacking Toolkit.\e[0m"
+       git clone https://github.com/wi-fi-analyzer/fluxion.git /opt/fluxion
+       cd /opt/fluxion/ ; ./Installer.sh
+       echo
+  fi
+
+  # End Here
   mainmenu
 }
 
