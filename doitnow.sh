@@ -79,6 +79,7 @@ do
     enum Script      (1)
     dirb             (2)
     nikto            (3)
+    Wireless Tools   (4)
            (B)ack
     ------------------------------
 EOF
@@ -87,6 +88,7 @@ EOF
     "1")  enumscript ;;
     "2")  e_dirb ;;
     "3")  e_nikto ;;
+    "4")  e_wireless ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -208,6 +210,12 @@ enum4linux -a $output>$HOME/enumresults/$output/enum4linux.txt
 echo -e "\nFinished with enum4linux scan! cat $HOME/enumresults/$output/enum4linux.txt"
 cat $HOME/enumresults/$output/enum4linux.txt
 pentools
+}
+
+# Wireless tools Menu
+e_wireless(){
+  echo -e "\nWireless tools have not yet been implemented. Check back"
+  pentools
 }
 
 # Run the main menu
