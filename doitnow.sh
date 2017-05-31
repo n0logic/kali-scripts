@@ -163,13 +163,12 @@ setitupnow(){
   fi
 
   if [ -d /opt/SecLists/.git ]; then
-       echo -e "\e[1;34mUpdating SecLists Password Lists.\e[0m"
-       cd /opt/SecLists/ ; git pull
-       echo
+	   echo -e "Updating Seclist."
+	    cd /opt/SecLists/ ; git pull
   else
-       echo -e "\e[1;33mInstalling SecLists Password Lists.\e[0m"
-       git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
-       echo
+	   echo -e "\nInstalling Daniel Miessler SecList."
+	    git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
+	echo
   fi
 
   if [ -d /opt/fluxion/.git ]; then
@@ -182,7 +181,7 @@ setitupnow(){
        cd /opt/fluxion/ ; ./Installer.sh
        echo
   fi
-
+  read -p "Press Enter to Continue"
   # End Here
   mainmenu
 }
