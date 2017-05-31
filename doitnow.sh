@@ -142,7 +142,7 @@ setitupnow(){
        git clone https://github.com/leebaird/discover.git /opt/discover
        read -p "Press <enter> to continue."
        echo
- 
+
  fi
 
   if [ -d /opt/SecLists/.git ]; then
@@ -176,15 +176,6 @@ setitupnow(){
        echo -e "\e[1;33mInstalling DeathStar.\e[0m"
        git clone https://github.com/byt3bl33d3r/DeathStar.git /opt/DeathStar
        echo
-  fi
-
-  if [ -d /opt/SecLists/.git ]; then
-	   echo -e "Updating Seclist."
-	    cd /opt/SecLists/ ; git pull
-  else
-	   echo -e "\nInstalling Daniel Miessler SecList."
-	    git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
-	echo
   fi
 
   if [ -d /opt/fluxion/.git ]; then
@@ -261,10 +252,83 @@ pentools
 }
 
 # Wireless tools Menu
+# Option 4 - Updates / Install
 e_wireless(){
-  echo -e "\nWireless tools have not yet been implemented. Check back"
-  pentools
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    Wireless Tools Main Menu
+    ------------------------------
+    Please enter your choice:
+
+    Monitor - All Channels     (1)
+    Monitor - One Channnel     (2)
+    End Monitoring             (3)
+    wifite                     (4)
+    fluxion                    (6)
+           (B)ack
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  airmonall ;;
+    "2")  airmon1 ;;
+    "3")  endmon ;;
+    "4")  wifite ;;
+    "5")  fluxion ;;
+    "B")  mainmenu ;;
+    "b")  mainmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 1
+done
 }
+
+airmonall(){
+  echo -e "\nPut Wireless adapter into monitor mode on all channels."
+  echo -3 "\nEnter Wireless device (eg- wlan1):"
+  read monitored
+  airmon-ng start $monitored
+  echo -e "\nWould you like aircrack-ng to kill troublesome services for you? y/n:"
+  read killservice
+  if ($killservice = y); then
+    airmon-ng check kill
+  else
+    e_wireless
+  fi
+  e_wireless
+}
+
+airmon1(){
+  echo -e "\nPut Wireless adapter into monitor mode on a specific channel."
+  echo -e "\nEnter Wireless device (eg- wlan1):"
+  read monitored
+  echo -e "\nEnter channel number:"
+  read channelnum
+  airmon-ng start $monitored $channelnum
+  echo -e "\nWould you like aircrack-ng to kill troublesome services for you? y/n:"
+  read killservice
+  if ($killservice = y); then
+    airmon-ng check kill
+  else
+    e_wireless
+  fi
+  e_wireless
+}
+
+endmon(){
+  echo -e "\nEnd Wireless monitor mode."
+  echo -e "\nEnter monitor device (eg- wlan1mon):"
+  read mondev
+  airmon-ng stop $mondev
+  e_wireless
+}
+
+# End WiFi Section
 
 # Discover tools Menu
 e_discover(){
@@ -285,7 +349,7 @@ do
     Please enter your choice:
 
     SSH                         (1)
-    
+
            (B)ack
     ------------------------------
 EOF
