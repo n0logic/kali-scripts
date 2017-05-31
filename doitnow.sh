@@ -2,8 +2,10 @@
 # doitnow.sh
 # Author: n0logic
 # Date: 05/07/2017
-# Updated: 05/24/2017
+# Updated: 05/31/2017
 # Basic quick commands for Kali system and various engagement tools.
+# Contains a few older scripts from besgood and n0logic as well as
+# a few great scripts from the community.
 
 # Function mainmenu - Main Menu, first function called.
 mainmenu(){
@@ -327,6 +329,17 @@ endmon(){
   e_wireless
 }
 
+wifite(){
+  echo -e "\nRunning wifite Wireless auditing tool."
+  xterm -e  "wifite ; bash"
+  e_wireless
+}
+
+fluxion(){
+  echo -e "\nRunning fluxion Wireless auditing tool."
+  xterm -e  "cd /opt/fluxion/; ./fluxion ; bash"
+  e_wireless
+}
 # End WiFi Section
 
 # Discover tools Menu
