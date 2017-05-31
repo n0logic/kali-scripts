@@ -162,13 +162,13 @@ setitupnow(){
        echo
   fi
 
-  if [ -d /usr/share/wordlists/SecLists/.git ]; then
+  if [ -d /opt/SecLists/.git ]; then
        echo -e "\e[1;34mUpdating SecLists Password Lists.\e[0m"
-       cd /usr/share/wordlists/SecLists/ ; git pull
+       cd /opt/SecLists/ ; git pull
        echo
   else
        echo -e "\e[1;33mInstalling SecLists Password Lists.\e[0m"
-       git clone https://github.com/danielmiessler/SecLists.git /usr/share/wordlists/SecLists
+       git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
        echo
   fi
 
