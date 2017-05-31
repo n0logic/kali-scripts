@@ -279,8 +279,8 @@ EOF
     "3")  endmon ;;
     "4")  wifite ;;
     "5")  fluxion ;;
-    "B")  mainmenu ;;
-    "b")  mainmenu ;;
+    "B")  pentools ;;
+    "b")  pentools ;;
     "Q")  exit                      ;;
     "q")  exit   ;;
      * )  echo "invalid option"     ;;
@@ -291,7 +291,7 @@ done
 
 airmonall(){
   echo -e "\nPut Wireless adapter into monitor mode on all channels."
-  echo -3 "\nEnter Wireless device (eg- wlan1):"
+  echo -e "\nEnter Wireless device (eg- wlan1):"
   read monitored
   airmon-ng start $monitored
   echo -e "\nWould you like aircrack-ng to kill troublesome services for you? y/n:"
