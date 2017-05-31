@@ -80,6 +80,8 @@ do
     dirb             (2)
     nikto            (3)
     Wireless Tools   (4)
+    Discover Tools   (5)
+    Hydra            (6)
            (B)ack
     ------------------------------
 EOF
@@ -89,6 +91,8 @@ EOF
     "2")  e_dirb ;;
     "3")  e_nikto ;;
     "4")  e_wireless ;;
+    "5")  e_discover;;
+    "6")  e_hydra;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -138,7 +142,19 @@ setitupnow(){
        git clone https://github.com/leebaird/discover.git /opt/discover
        read -p "Press <enter> to continue."
        echo
+ 
+ fi
+
+  if [ -d /opt/SecLists/.git ]; then
+	echo -e "Updating Seclist."
+	cd /opt/SecLists/ ; git pull
+  else
+	echo -e "\nInstalling Daniel Miessler SecList."
+	git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
+	read -p "Press <enter> to continue."
+	echo
   fi
+
   bash /opt/discover/update.sh
   if [ -d /opt/kali-scripts/.git ]; then
       echo -e"Updating doitnow script."
@@ -217,6 +233,47 @@ e_wireless(){
   echo -e "\nWireless tools have not yet been implemented. Check back"
   pentools
 }
+
+# Discover tools Menu
+e_discover(){
+  xterm -e  "cd /opt/discover/; ./discover.sh ; bash"
+  pentools
+}
+
+# Hydra Tools Set
+
+e_hydra(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    Hydra Bruteforce
+    ------------------------------
+    Please enter your choice:
+
+    SSH                         (1)
+    
+           (B)ack
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  hydra_ssh ;;
+    "B")  mainmenu ;;
+    "b")  mainmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+
+	sleep 1
+
+   done
+}
+
+# hydra_ssh menu
+
 
 # Run the main menu
 mainmenu
