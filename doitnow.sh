@@ -252,7 +252,6 @@ pentools
 }
 
 # Wireless tools Menu
-# Option 4 - Updates / Install
 e_wireless(){
 while :
 do
