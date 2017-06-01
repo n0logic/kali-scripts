@@ -511,15 +511,14 @@ do
     Please enter your choice:
 
     SSH                         (1)
-    Web Form                    (2)
-
+    Web Form			(2)
            (B)ack
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
     "1")  hydra_ssh ;;
-    "2")  h_webform ;;
+    "2")  hydra_web ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -568,55 +567,130 @@ EOF
 
 # hydra ssh with username list
 hydra_ssh_userlist(){
-
+  
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nPick a wordlist."
-  echo -e "\n1) For 10k type /opt/SecLists/Passwords/10k_most_common.txt"
-  echo -e "\n2) For 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
-  echo -e "\n3) For rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\n4) For 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
+  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
+  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
+  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
+  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
   read wordlist
-  if [ $wordlist = 1 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP
-  elif [ $wordlist = 2 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP
-  elif [ $wordlist = 3 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP
-  elif [ $wordlist = 4 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP
-  else
-    echo -e "\nInvalid Option!"
-    hydra_ssh_userlist
-  fi
+  echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP"
+  hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP
+
 	read
-  e_hydra
+  mainmenu
 }
 
 # hydra ssh user defined
 hydra_ssh_userdefined(){
-
+  
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nEnter the SSH user."
   read user
   echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt"
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
+  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
+  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
   echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
   echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
   read wordlist
-  echo "hydra -l $user -P $wordlist ssh://$sshIP"
+  echo "hydra -l $user -P $wordlist ssh://$sshIP" 
   hydra -l $user -P $wordlist ssh://$sshIP
 
         read
- mainmenu
+ e_hydra
 
 }
+
+#Hydra web form user choice menu
+hydra_web(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    Hydra Bruteforce
+    ------------------------------
+    Please enter your choice:
+
+    User List                   (1)
+    User Defined                (2)
+
+           (B)ack
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  hydra_web_userlist ;;
+    "2")  hydra_web_userdefined ;;
+    "B")  mainmenu ;;
+    "b")  mainmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+
+	sleep 1
+
+  done
+}
+
+
+# hydra web form with username list
+hydra_web_userlist(){
+  
+  echo -e "\nPlease enter the base URL or IP."
+  read URL
+  echo -e "\n Please enter the path to the form, example: /auth/login.php"
+  read path
+  echo -e "\nEnter username field position."
+  read userfield
+  echo -e "\nEnter password field position."
+  read passfield
+  echo -e "\nPick a wordlist."
+  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
+  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
+  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
+  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
+  read wordlist
+  echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
+  
+  hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+
+	read
+  e_hydra
+}
+
+# hydra web form user defined
+hydra_web_userdefined(){
+  
+  echo -e "\nPlease enter the URL or IP."
+  read URL
+  echo -e "\nPlease enter the path to form, example: /auth/login.php"
+  read path
+  echo -e "\nEnter the username."
+  read user
+  echo -e "\nEnter username field position."
+  read userfield
+  echo -e "\nEnter password field position."
+  read passfield
+  echo -e "\nPick a wordlist."
+  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
+  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
+  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
+  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
+  read wordlist
+  echo "hydra -l $user -P $wordlist $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V" 
+
+  hydra -l $usr -P $wordlist $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+
+        read
+ e_hydra
+
+}
+
 
 # Run the main menu
 mainmenu
