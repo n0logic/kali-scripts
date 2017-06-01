@@ -182,9 +182,9 @@ i_gchrome(){
   i_individual
 }
 
-# i_gchrome - Installs Google Chrome 64bit
-i_gchrome(){
-  echo -e "Installing the latest version of Google Chrome x64..."
+# i_msfpro - Installs latest Metasploit Pro
+i_msfpro(){
+  echo -e "Installing the latest version of Metasploit Pro..."
   pause 1
   xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
   xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
@@ -454,6 +454,7 @@ do
     Please enter your choice:
 
     SSH                         (1)
+    Web Form                    (2)
 
            (B)ack
     ------------------------------
@@ -461,6 +462,7 @@ EOF
     read -n1 -s
     case "$REPLY" in
     "1")  hydra_ssh ;;
+    "2")  h_webform ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
