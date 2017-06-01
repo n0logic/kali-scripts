@@ -383,12 +383,14 @@ endmon(){
 
 wifite(){
   echo -e "\nRunning wifite Wireless auditing tool."
+  pause 1
   xterm -e  "wifite ; bash"
   e_wireless
 }
 
 fluxion(){
   echo -e "\nRunning fluxion Wireless auditing tool."
+  pause 1
   xterm -e  "cd /opt/fluxion/; ./fluxion ; bash"
   e_wireless
 }
@@ -396,6 +398,8 @@ fluxion(){
 
 # Discover tools Menu
 e_discover(){
+  echo -e "\nRunning Lee Baird's discover script..."
+  pause 1
   xterm -e  "cd /opt/discover/; ./discover.sh ; bash"
   pentools
 }
