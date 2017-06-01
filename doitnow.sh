@@ -2,8 +2,10 @@
 # doitnow.sh
 # Author: n0logic
 # Date: 05/07/2017
-# Updated: 05/24/2017
+# Updated: 05/31/2017
 # Basic quick commands for Kali system and various engagement tools.
+# Contains a few older scripts from besgood and n0logic as well as
+# a few great scripts from the community.
 
 # Function mainmenu - Main Menu, first function called.
 mainmenu(){
@@ -54,8 +56,9 @@ EOF
     case "$REPLY" in
     "1")  pentools ;;
     "2")  echo "Try Harder!" ;;
-    "3")  setitup ;;
-    "4")  setitup ;;
+    "3")  installmenu ;;
+    "4")  echo "Not yet implemented" ;;
+    "5")  echo "Not yet implemented"
     "6")  sudo reboot;;
     "Q")  exit                      ;;
     "q")  exit                      ;;
@@ -103,8 +106,9 @@ EOF
 done
 }
 
-# Option 4 - Updates / Install
-setitup(){
+# --Begin-- installmenu - Software Installation Menu
+# Option 3 - Updates / Install
+intallmenu(){
 while :
 do
     clear
@@ -114,13 +118,17 @@ do
     ------------------------------
     Please enter your choice:
 
-    Lee Baird Update Script      (1)
+    Run All Installers         (1)
+    Individual Installers      (2)
+    Update and Upgrade Kali    (3)
            (B)ack
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
-    "1")  setitupnow ;;
+    "1")  i_everything ;;
+    "2")  i_individual ;;
+    "3")  i_updatekali ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -131,8 +139,62 @@ EOF
 done
 }
 
-# setitupnow Function - Clone Lee Baird discover script and run update portion
-setitupnow(){
+# i_individual - Individual Installers
+i_individual(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    Individual Software Installers
+    ------------------------------
+    Please enter your choice:
+
+    Google Chrome              (1)
+    burpsuite pro              (2)
+    Metasploit Pro             (3)
+           (B)ack
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  i_gchrome ;;
+    "2")  echo "Work In Progress" ;;
+    "3")  i_msfpro ;;
+    "B")  installmenu ;;
+    "b")  installmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 1
+done
+}
+
+# i_gchrome - Installs Google Chrome 64bit
+i_gchrome(){
+  echo -e "Installing the latest version of Google Chrome x64..."
+  pause 1
+  xterm -e "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb ; bash"
+  xterm -e "dpkg -i google-chrome-stable_current_amd64.deb ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_gchrome - Installs Google Chrome 64bit
+i_gchrome(){
+  echo -e "Installing the latest version of Google Chrome x64..."
+  pause 1
+  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
+  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_everything function - Install most software / tools
+i_everything(){
   if [ -d /opt/discover/.git ]; then
        echo -e "\nUpdating Lee Baird Discover Script."
        cd /opt/discover/ ; git pull
@@ -190,8 +252,22 @@ setitupnow(){
   fi
   read -p "Press Enter to Continue"
   # End Here
-  mainmenu
+  installmenu
 }
+
+# Update Kali repositories and upgrade only
+i_updatekali(){
+  echo -e "Updating Kali repositories and install system updates..."
+  pause 1
+  xterm -e "apt update ; bash"
+  xterm -e "apt upgrade ; bash"
+  xterm -e "apt dist-upgrade ; bash"
+  echo -e "\nUpdates are complete!"
+  echo -e "\nReturning to software menu..."
+  pause 1
+  installmenu
+}
+# --End-- installmenu - Software Installation Menu
 
 # enum.sh built in woohoo
 enumscript(){
@@ -277,8 +353,8 @@ EOF
     "3")  endmon ;;
     "4")  wifite ;;
     "5")  fluxion ;;
-    "B")  mainmenu ;;
-    "b")  mainmenu ;;
+    "B")  pentools ;;
+    "b")  pentools ;;
     "Q")  exit                      ;;
     "q")  exit   ;;
      * )  echo "invalid option"     ;;
@@ -327,10 +403,25 @@ endmon(){
   e_wireless
 }
 
+wifite(){
+  echo -e "\nRunning wifite Wireless auditing tool."
+  pause 1
+  xterm -e  "wifite ; bash"
+  e_wireless
+}
+
+fluxion(){
+  echo -e "\nRunning fluxion Wireless auditing tool."
+  pause 1
+  xterm -e  "cd /opt/fluxion/; ./fluxion ; bash"
+  e_wireless
+}
 # End WiFi Section
 
 # Discover tools Menu
 e_discover(){
+  echo -e "\nRunning Lee Baird's discover script..."
+  pause 1
   xterm -e  "cd /opt/discover/; ./discover.sh ; bash"
   pentools
 }
@@ -403,12 +494,12 @@ EOF
 
 # hydra ssh with username list
 hydra_ssh_userlist(){
-  
+
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
+  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt"
+  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
   echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
   echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
   read wordlist
@@ -421,18 +512,18 @@ hydra_ssh_userlist(){
 
 # hydra ssh user defined
 hydra_ssh_userdefined(){
-  
+
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nEnter the SSH user."
   read user
   echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
+  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt"
+  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
   echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
   echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
   read wordlist
-  echo "hydra -l $user -P $wordlist ssh://$sshIP" 
+  echo "hydra -l $user -P $wordlist ssh://$sshIP"
   hydra -l $user -P $wordlist ssh://$sshIP
 
         read
