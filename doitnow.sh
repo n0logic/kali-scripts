@@ -2,8 +2,10 @@
 # doitnow.sh
 # Author: n0logic
 # Date: 05/07/2017
-# Updated: 05/24/2017
+# Updated: 05/31/2017
 # Basic quick commands for Kali system and various engagement tools.
+# Contains a few older scripts from besgood and n0logic as well as
+# a few great scripts from the community.
 
 # Function mainmenu - Main Menu, first function called.
 mainmenu(){
@@ -54,8 +56,9 @@ EOF
     case "$REPLY" in
     "1")  pentools ;;
     "2")  echo "Try Harder!" ;;
-    "3")  setitup ;;
-    "4")  setitup ;;
+    "3")  installmenu ;;
+    "4")  echo "Not yet implemented" ;;
+    "5")  echo "Not yet implemented" ;;
     "6")  sudo reboot;;
     "Q")  exit                      ;;
     "q")  exit                      ;;
@@ -103,8 +106,9 @@ EOF
 done
 }
 
-# Option 4 - Updates / Install
-setitup(){
+# --Begin-- installmenu - Software Installation Menu
+# Option 3 - Updates / Install
+installmenu(){
 while :
 do
     clear
@@ -114,13 +118,17 @@ do
     ------------------------------
     Please enter your choice:
 
-    Lee Baird Update Script      (1)
+    Run All Installers         (1)
+    Individual Installers      (2)
+    Update and Upgrade Kali    (3)
            (B)ack
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
-    "1")  setitupnow ;;
+    "1")  i_everything ;;
+    "2")  i_individual ;;
+    "3")  i_updatekali ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -131,8 +139,119 @@ EOF
 done
 }
 
-# setitupnow Function - Clone Lee Baird discover script and run update portion
-setitupnow(){
+# i_individual - Individual Installers
+i_individual(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    Individual Software Installers
+    ------------------------------
+    Please enter your choice:
+
+    Chromium Browser          (01)
+    tor                       (02)
+    burpsuite pro             (03)
+    Metasploit Pro            (04)
+    Synaptic Package Manager  (05)
+    Java 8 Installer          (06)
+    i386 arch                 (07)
+    bleachbit Secure Erase    (08)
+    VirtualBox                (09)
+    openvas Setup             (10)
+    Exploit Package           (11)
+    pwntools CTF Framework    (12)
+
+           (B)ack
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  i_gchrome ;;
+    "2")  i_tor ;;
+    "3")  echo -e "\nNot yet implemented" ;;
+    "4")  i_msfpro ;;
+    "5")  i_synaptic ;;
+    "6")  i_java8 ;;
+    "7")  i_i386arch ;;
+    "8")  i_bleachbit ;;
+    "9")  i_virtualbox ;;
+    "10")  i_openvas ;;
+    "11")  i_exppack ;;
+    "12")  i_pwntools ;;
+    "B")  installmenu ;;
+    "b")  installmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 1
+done
+}
+
+# i_gchrome - Installs Google Chrome 64bit
+i_gchrome(){
+  echo -e "Press [Enter] to install the latest version of Chromium x64..."
+  read
+  xterm -e "apt install chromium -y ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_msfpro - Installs latest Metasploit Pro
+i_msfpro(){
+  echo -e "Press [Enter] to install the latest version of Metasploit Pro..."
+  read
+  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
+  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_synaptic - Installs synaptic package manager
+i_synaptic(){
+  echo -e "Press [Enter] to install Synaptic Package Manager..."
+  read
+  xterm -e "apt install synaptic -y ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_java8 - Installs Java 8 repos and installer
+i_java8(){
+  echo -e "Press [Enter] to install Java 8..."
+  read
+  echo -e "Adding Java 8 repositories to sources.list..."
+  echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list
+  echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" >> /etc/apt/sources.list
+  echo -e "\nAdding repositories keys to keystore..."
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+  echo -e "\nUpdating package lists..."
+  sudo apt update
+  echo -e "\nInstalling Java 8 Installer..."
+  sudo apt install oracle-java8-installer -y
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_tor - Installs tor and tor browser
+i_tor(){
+  echo -e "Press [Enter] to install tor services and browser bundle..."
+  read
+  xterm -e "apt install tor -y ; bash"
+  xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/ ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_everything function - Install most software / tools
+i_everything(){
   if [ -d /opt/discover/.git ]; then
        echo -e "\nUpdating Lee Baird Discover Script."
        cd /opt/discover/ ; git pull
@@ -190,30 +309,59 @@ setitupnow(){
   fi
   read -p "Press Enter to Continue"
   # End Here
-  mainmenu
+  installmenu
 }
+
+# Update Kali repositories and upgrade only
+i_updatekali(){
+  echo -e "Press [Enter] to begin updating Kali repositories and installing system updates..."
+  read
+  xterm -e "apt update ; bash"
+  xterm -e "apt upgrade ; bash"
+  xterm -e "apt dist-upgrade ; bash"
+  echo -e "\nUpdates are complete!"
+  echo -e "\nReturning to software menu..."
+  sleep 1
+  installmenu
+}
+# --End-- installmenu - Software Installation Menu
 
 # enum.sh built in woohoo
 enumscript(){
-i = 1
 echo -e "n0logic's Enumerate o'matic!\n"
 echo -e "This script will read iplist from current directory and enumerate\n"
 echo -e "each host or IP in the file.\n"
 echo -e "Results will be saved to text documents in your home folder"
 echo -e "------------------------------------------------------------------\n"
-for output in $( cat ./iplist.txt )
- do
-    echo -e "\nCreating results folder at $HOME/enumresults/$output/"
-    mkdir $HOME/enumresults/$output/
-    echo -e "\nRunning nmap -sV -sC $output in new tab"
-    foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
-    gnome-terminal tab -e "$foo"
-    cat $HOME/enumresults/$output/nmap.txt
-    if (( i % 2 == 0 )); then  # pause every 2 iterations
-        read
-    fi
-    let "i++"
-done
+echo -e "\nDo you want to enter an IP (y/n):"
+read yornlist
+if [ $yornlist = n ]; then
+  i=1
+  for output in $( cat ./iplist.txt )
+    do
+      echo -e "\nCreating results folder at $HOME/enumresults/$output/"
+      mkdir $HOME/enumresults/$output/
+      echo -e "\nRunning nmap -sV -sC $output in new tab"
+      foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
+      gnome-terminal tab -e "$foo"
+      cat $HOME/enumresults/$output/nmap.txt
+      if (( i % 2 == 0 )); then  # pause every 2 iterations
+          read
+      fi
+      let "i++"
+    done
+elif [ $yornlist = y ]; then
+  echo -e "\nEnter IP address for nmap scan:"
+  read $output
+  echo -e "\nCreating results folder at $HOME/enumresults/$output/"
+  mkdir $HOME/enumresults/$output/
+  echo -e "\nRunning nmap -sV -sC $output in new tab"
+  foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
+  gnome-terminal tab -e "$foo"
+  cat $HOME/enumresults/$output/nmap.txt
+else
+  echo -e "\nInvalid option"
+fi
 pentools
 }
 
@@ -277,8 +425,8 @@ EOF
     "3")  endmon ;;
     "4")  wifite ;;
     "5")  fluxion ;;
-    "B")  mainmenu ;;
-    "b")  mainmenu ;;
+    "B")  pentools ;;
+    "b")  pentools ;;
     "Q")  exit                      ;;
     "q")  exit   ;;
      * )  echo "invalid option"     ;;
@@ -327,10 +475,25 @@ endmon(){
   e_wireless
 }
 
+wifite(){
+  echo -e "\nPress [Enter] to run wifite Wireless auditing tool."
+  read
+  xterm -e  "wifite ; bash"
+  e_wireless
+}
+
+fluxion(){
+  echo -e "\nPress [Enter] to run fluxion Wireless auditing tool."
+  read
+  xterm -e  "cd /opt/fluxion/; ./fluxion ; bash"
+  e_wireless
+}
 # End WiFi Section
 
 # Discover tools Menu
 e_discover(){
+  echo -e "\nPress [Enter] to run Lee Baird's discover script..."
+  read
   xterm -e  "cd /opt/discover/; ./discover.sh ; bash"
   pentools
 }
@@ -348,14 +511,15 @@ do
     Please enter your choice:
 
     SSH                         (1)
-    Web Form			(2)
+    Web Form                    (2)
+
            (B)ack
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
     "1")  hydra_ssh ;;
-    "2")  hydra_web ;;
+    "2")  h_webform ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -404,127 +568,53 @@ EOF
 
 # hydra ssh with username list
 hydra_ssh_userlist(){
-  
+
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
-  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
+  echo -e "\n1) For 10k type /opt/SecLists/Passwords/10k_most_common.txt"
+  echo -e "\n2) For 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
+  echo -e "\n3) For rockyou type /usr/share/wordlists/rockyou.txt"
+  echo -e "\n4) For 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
   read wordlist
-  echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP"
-  hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP
-
+  if [ $wordlist = 1 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP
+  elif [ $wordlist = 2 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP
+  elif [ $wordlist = 3 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP
+  elif [ $wordlist = 4 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP
+  else
+    echo -e "\nInvalid Option!"
+    hydra_ssh_userlist
+  fi
 	read
-  mainmenu
+  e_hydra
 }
 
 # hydra ssh user defined
 hydra_ssh_userdefined(){
-  
+
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nEnter the SSH user."
   read user
   echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
+  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt"
+  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
   echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
   echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
   read wordlist
-  echo "hydra -l $user -P $wordlist ssh://$sshIP" 
+  echo "hydra -l $user -P $wordlist ssh://$sshIP"
   hydra -l $user -P $wordlist ssh://$sshIP
 
         read
- e_hydra
-
-}
-
-#Hydra ssh user choice menu
-hydra_web(){
-while :
-do
-    clear
-    cat<<EOF
-    ==============================
-    Hydra Bruteforce
-    ------------------------------
-    Please enter your choice:
-
-    User List                   (1)
-    User Defined                (2)
-
-           (B)ack
-    ------------------------------
-EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")  hydra_web_userlist ;;
-    "2")  hydra_web_userdefined ;;
-    "B")  mainmenu ;;
-    "b")  mainmenu ;;
-    "Q")  exit                      ;;
-    "q")  exit   ;;
-     * )  echo "invalid option"     ;;
-    esac
-
-	sleep 1
-
-  done
-}
-
-
-# hydra web form with username list
-hydra_web_userlist(){
-  
-  echo -e "\nPlease enter the base URL or IP."
-  read URL
-  echo -e "\n Please enter the path to the form, example: /auth/login.php"
-  read path
-  echo -e "\nEnter username field position."
-  read userfield
-  echo -e "\nEnter password field position."
-  read passfield
-  echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
-  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
-  read wordlist
-  echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-  
-  hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
-
-	read
-  e_hydra
-}
-
-# hydra web form user defined
-hydra_web_userdefined(){
-  
-  echo -e "\nPlease enter the URL or IP."
-  read URL
-  echo -e "\nPlease enter the path to form, example: /auth/login.php"
-  read path
-  echo -e "\nEnter the username."
-  read user
-  echo -e "\nEnter username field position."
-  read userfield
-  echo -e "\nEnter password field position."
-  read passfield
-  echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
-  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
-  read wordlist
-  echo "hydra -l $user -P $wordlist $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V" 
-
-  hydra -l $usr -P $wordlist $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
-
-        read
- e_hydra
+ mainmenu
 
 }
 
