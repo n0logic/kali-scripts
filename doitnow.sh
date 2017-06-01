@@ -58,7 +58,7 @@ EOF
     "2")  echo "Try Harder!" ;;
     "3")  installmenu ;;
     "4")  echo "Not yet implemented" ;;
-    "5")  echo "Not yet implemented"
+    "5")  echo "Not yet implemented" ;;
     "6")  sudo reboot;;
     "Q")  exit                      ;;
     "q")  exit                      ;;
