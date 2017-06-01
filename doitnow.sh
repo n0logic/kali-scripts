@@ -271,25 +271,40 @@ i_updatekali(){
 
 # enum.sh built in woohoo
 enumscript(){
-i = 1
 echo -e "n0logic's Enumerate o'matic!\n"
 echo -e "This script will read iplist from current directory and enumerate\n"
 echo -e "each host or IP in the file.\n"
 echo -e "Results will be saved to text documents in your home folder"
 echo -e "------------------------------------------------------------------\n"
-for output in $( cat ./iplist.txt )
- do
-    echo -e "\nCreating results folder at $HOME/enumresults/$output/"
-    mkdir $HOME/enumresults/$output/
-    echo -e "\nRunning nmap -sV -sC $output in new tab"
-    foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
-    gnome-terminal tab -e "$foo"
-    cat $HOME/enumresults/$output/nmap.txt
-    if (( i % 2 == 0 )); then  # pause every 2 iterations
-        read
-    fi
-    let "i++"
-done
+echo -e "\nDo you want to enter an IP (y/n):"
+read yornlist
+if [ $yornlist = n ]; then
+  i=1
+  for output in $( cat ./iplist.txt )
+    do
+      echo -e "\nCreating results folder at $HOME/enumresults/$output/"
+      mkdir $HOME/enumresults/$output/
+      echo -e "\nRunning nmap -sV -sC $output in new tab"
+      foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
+      gnome-terminal tab -e "$foo"
+      cat $HOME/enumresults/$output/nmap.txt
+      if (( i % 2 == 0 )); then  # pause every 2 iterations
+          read
+      fi
+      let "i++"
+    done
+elif [ $yornlist = y ]; then
+  echo -e "\nEnter IP address for nmap scan:"
+  read $output
+  echo -e "\nCreating results folder at $HOME/enumresults/$output/"
+  mkdir $HOME/enumresults/$output/
+  echo -e "\nRunning nmap -sV -sC $output in new tab"
+  foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
+  gnome-terminal tab -e "$foo"
+  cat $HOME/enumresults/$output/nmap.txt
+else
+  echo -e "\nInvalid option"
+fi
 pentools
 }
 
