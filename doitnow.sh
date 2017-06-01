@@ -158,9 +158,9 @@ do
 EOF
     read -n1 -s
     case "$REPLY" in
-    "1")  echo "Work In Progress" ;;
+    "1")  i_gchrome ;;
     "2")  echo "Work In Progress" ;;
-    "3")  echo "Work In Progress" ;;
+    "3")  i_msfpro ;;
     "B")  installmenu ;;
     "b")  installmenu ;;
     "Q")  exit                      ;;
@@ -169,6 +169,28 @@ EOF
     esac
     sleep 1
 done
+}
+
+# i_gchrome - Installs Google Chrome 64bit
+i_gchrome(){
+  echo -e "Installing the latest version of Google Chrome x64..."
+  pause 1
+  xterm -e "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb ; bash"
+  xterm -e "dpkg -i google-chrome-stable_current_amd64.deb ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_gchrome - Installs Google Chrome 64bit
+i_gchrome(){
+  echo -e "Installing the latest version of Google Chrome x64..."
+  pause 1
+  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
+  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
 }
 
 # i_everything function - Install most software / tools
