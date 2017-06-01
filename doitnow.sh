@@ -108,7 +108,7 @@ done
 
 # --Begin-- installmenu - Software Installation Menu
 # Option 3 - Updates / Install
-intallmenu(){
+installmenu(){
 while :
 do
     clear
