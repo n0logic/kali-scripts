@@ -150,9 +150,19 @@ do
     ------------------------------
     Please enter your choice:
 
-    Google Chrome              (1)
-    burpsuite pro              (2)
-    Metasploit Pro             (3)
+    Chromium Browser          (01)
+    tor                       (02)
+    burpsuite pro             (03)
+    Metasploit Pro            (04)
+    Synaptic Package Manager  (05)
+    Java 8 Installer          (06)
+    i386 arch                 (07)
+    bleachbit Secure Erase    (08)
+    VirtualBox                (09)
+    openvas Setup             (10)
+    Exploit Package           (11)
+    pwntools CTF Framework    (12)
+
            (B)ack
     ------------------------------
 EOF
@@ -173,10 +183,9 @@ done
 
 # i_gchrome - Installs Google Chrome 64bit
 i_gchrome(){
-  echo -e "Installing the latest version of Google Chrome x64..."
-  pause 1
-  xterm -e "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb ; bash"
-  xterm -e "dpkg -i google-chrome-stable_current_amd64.deb ; bash"
+  echo -e "Press [Enter] to install the latest version of Chromium x64..."
+  read
+  xterm -e "apt install chromium -y ; bash"
   echo -e "\Installation is complete!"
   echo -e "\nReturning to individual installer menu..."
   i_individual
@@ -184,8 +193,8 @@ i_gchrome(){
 
 # i_msfpro - Installs latest Metasploit Pro
 i_msfpro(){
-  echo -e "Installing the latest version of Metasploit Pro..."
-  pause 1
+  echo -e "Press [Enter] to install the latest version of Metasploit Pro..."
+  read
   xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
   xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
   echo -e "\Installation is complete!"
@@ -257,14 +266,14 @@ i_everything(){
 
 # Update Kali repositories and upgrade only
 i_updatekali(){
-  echo -e "Updating Kali repositories and install system updates..."
-  pause 1
+  echo -e "Press [Enter] to begin updating Kali repositories and installing system updates..."
+  read
   xterm -e "apt update ; bash"
   xterm -e "apt upgrade ; bash"
   xterm -e "apt dist-upgrade ; bash"
   echo -e "\nUpdates are complete!"
   echo -e "\nReturning to software menu..."
-  pause 1
+  sleep 1
   installmenu
 }
 # --End-- installmenu - Software Installation Menu
@@ -419,15 +428,15 @@ endmon(){
 }
 
 wifite(){
-  echo -e "\nRunning wifite Wireless auditing tool."
-  pause 1
+  echo -e "\nPress [Enter] to run wifite Wireless auditing tool."
+  read
   xterm -e  "wifite ; bash"
   e_wireless
 }
 
 fluxion(){
-  echo -e "\nRunning fluxion Wireless auditing tool."
-  pause 1
+  echo -e "\nPress [Enter] to run fluxion Wireless auditing tool."
+  read
   xterm -e  "cd /opt/fluxion/; ./fluxion ; bash"
   e_wireless
 }
@@ -435,8 +444,8 @@ fluxion(){
 
 # Discover tools Menu
 e_discover(){
-  echo -e "\nRunning Lee Baird's discover script..."
-  pause 1
+  echo -e "\nPress [Enter] to run Lee Baird's discover script..."
+  read
   xterm -e  "cd /opt/discover/; ./discover.sh ; bash"
   pentools
 }
