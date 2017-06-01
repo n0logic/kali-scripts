@@ -169,8 +169,17 @@ EOF
     read -n1 -s
     case "$REPLY" in
     "1")  i_gchrome ;;
-    "2")  echo "Work In Progress" ;;
-    "3")  i_msfpro ;;
+    "2")  i_tor ;;
+    "3")  echo -e "\nNot yet implemented" ;;
+    "4")  i_msfpro ;;
+    "5")  i_synaptic ;;
+    "6")  i_java8 ;;
+    "7")  i_i386arch ;;
+    "8")  i_bleachbit ;;
+    "9")  i_virtualbox ;;
+    "10")  i_openvas ;;
+    "11")  i_exppack ;;
+    "12")  i_pwntools ;;
     "B")  installmenu ;;
     "b")  installmenu ;;
     "Q")  exit                      ;;
@@ -197,6 +206,45 @@ i_msfpro(){
   read
   xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
   xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_synaptic - Installs synaptic package manager
+i_synaptic(){
+  echo -e "Press [Enter] to install Synaptic Package Manager..."
+  read
+  xterm -e "apt install synaptic -y ; bash"
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_java8 - Installs Java 8 repos and installer
+i_java8(){
+  echo -e "Press [Enter] to install Java 8..."
+  read
+  echo -e "Adding Java 8 repositories to sources.list..."
+  echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list
+  echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" >> /etc/apt/sources.list
+  echo -e "\nAdding repositories keys to keystore..."
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+  echo -e "\nUpdating package lists..."
+  sudo apt update
+  echo -e "\nInstalling Java 8 Installer..."
+  sudo apt install oracle-java8-installer -y
+  echo -e "\Installation is complete!"
+  echo -e "\nReturning to individual installer menu..."
+  i_individual
+}
+
+# i_tor - Installs tor and tor browser
+i_tor(){
+  echo -e "Press [Enter] to install tor services and browser bundle..."
+  read
+  xterm -e "apt install tor -y ; bash"
+  xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/ ; bash"
   echo -e "\Installation is complete!"
   echo -e "\nReturning to individual installer menu..."
   i_individual
