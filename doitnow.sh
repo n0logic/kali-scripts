@@ -56,8 +56,9 @@ EOF
     case "$REPLY" in
     "1")  pentools ;;
     "2")  echo "Try Harder!" ;;
-    "3")  setitup ;;
-    "4")  setitup ;;
+    "3")  installmenu ;;
+    "4")  echo "Not yet implemented" ;;
+    "5")  echo "Not yet implemented"
     "6")  sudo reboot;;
     "Q")  exit                      ;;
     "q")  exit                      ;;
@@ -105,8 +106,9 @@ EOF
 done
 }
 
-# Option 4 - Updates / Install
-setitup(){
+# --Begin-- installmenu - Software Installation Menu
+# Option 3 - Updates / Install
+intallmenu(){
 while :
 do
     clear
@@ -116,13 +118,17 @@ do
     ------------------------------
     Please enter your choice:
 
-    Lee Baird Update Script      (1)
+    Run All Installers         (1)
+    Individual Installers      (2)
+    Update and Upgrade Kali    (3)
            (B)ack
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
-    "1")  setitupnow ;;
+    "1")  i_everything ;;
+    "2")  i_individual ;;
+    "3")  i_updatekali ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -133,8 +139,40 @@ EOF
 done
 }
 
-# setitupnow Function - Clone Lee Baird discover script and run update portion
-setitupnow(){
+# i_individual - Individual Installers
+i_individual(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    Individual Software Installers
+    ------------------------------
+    Please enter your choice:
+
+    Google Chrome              (1)
+    burpsuite pro              (2)
+    Metasploit Pro             (3)
+           (B)ack
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  echo "Work In Progress" ;;
+    "2")  echo "Work In Progress" ;;
+    "3")  echo "Work In Progress" ;;
+    "B")  installmenu ;;
+    "b")  installmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 1
+done
+}
+
+# i_everything function - Install most software / tools
+i_everything(){
   if [ -d /opt/discover/.git ]; then
        echo -e "\nUpdating Lee Baird Discover Script."
        cd /opt/discover/ ; git pull
@@ -192,8 +230,22 @@ setitupnow(){
   fi
   read -p "Press Enter to Continue"
   # End Here
-  mainmenu
+  installmenu
 }
+
+# Update Kali repositories and upgrade only
+i_updatekali(){
+  echo -e "Updating Kali repositories and install system updates..."
+  pause 1
+  xterm -e "apt update ; bash"
+  xterm -e "apt upgrade ; bash"
+  xterm -e "apt dist-upgrade ; bash"
+  echo -e "\nUpdates are complete!"
+  echo -e "\nReturning to software menu..."
+  pause 1
+  installmenu
+}
+# --End-- installmenu - Software Installation Menu
 
 # enum.sh built in woohoo
 enumscript(){
@@ -380,78 +432,8 @@ EOF
    done
 }
 
-#Hydra ssh user choice menu
-hydra_ssh(){
-while :
-do
-    clear
-    cat<<EOF
-    ==============================
-    Hydra Bruteforce
-    ------------------------------
-    Please enter your choice:
+# hydra_ssh menu
 
-    User List                   (1)
-    User Defined                (2)
-
-           (B)ack
-    ------------------------------
-EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")  hydra_ssh_userlist ;;
-    "2")  hydra_ssh_userdefined ;;
-    "B")  mainmenu ;;
-    "b")  mainmenu ;;
-    "Q")  exit                      ;;
-    "q")  exit   ;;
-     * )  echo "invalid option"     ;;
-    esac
-
-	sleep 1
-
-  done
-}
-
-
-# hydra ssh with username list
-hydra_ssh_userlist(){
-  
-  echo -e "\nEnter the IP."
-  read sshIP
-  echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
-  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
-  read wordlist
-  echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP"
-  hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP
-
-	read
-  mainmenu
-}
-
-# hydra ssh user defined
-hydra_ssh_userdefined(){
-  
-  echo -e "\nEnter the IP."
-  read sshIP
-  echo -e "\nEnter the SSH user."
-  read user
-  echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt" 
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt" 
-  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
-  read wordlist
-  echo "hydra -l $user -P $wordlist ssh://$sshIP" 
-  hydra -l $user -P $wordlist ssh://$sshIP
-
-        read
- mainmenu
-
-}
 
 # Run the main menu
 mainmenu
