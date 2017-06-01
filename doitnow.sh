@@ -498,16 +498,29 @@ hydra_ssh_userlist(){
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt"
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
-  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
+  echo -e "\n1) For 10k type /opt/SecLists/Passwords/10k_most_common.txt"
+  echo -e "\n2) For 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
+  echo -e "\n3) For rockyou type /usr/share/wordlists/rockyou.txt"
+  echo -e "\n4) For 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
   read wordlist
-  echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP"
-  hydra -L /opt/SecLists/Usernames/Names/name.txt -P $wordlist ssh://$sshIP
-
+  if [ $wordlist = 1 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP
+  elif [ $wordlist = 2 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP
+  elif [ $wordlist = 3 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP
+  elif [ $wordlist = 4 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP
+  else
+    echo -e "\nInvalid Option!"
+    hydra_ssh_userlist
+  fi
 	read
-  mainmenu
+  e_hydra
 }
 
 # hydra ssh user defined
