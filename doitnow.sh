@@ -197,7 +197,7 @@ done
 i_gchrome(){
   echo -e "Press [Enter] to install the latest version of Chromium x64..."
   read
-  xterm -e "apt install chromium -y ; bash"
+  xterm -e "apt install chromium -y"
   echo -e "\Installation is complete!"
   echo -e "\nReturning to individual installer menu..."
   i_individual
@@ -207,8 +207,8 @@ i_gchrome(){
 i_msfpro(){
   echo -e "Press [Enter] to install the latest version of Metasploit Pro..."
   read
-  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
-  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
+  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run"
+  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run"
   echo -e "\Installation is complete!"
   echo -e "\nReturning to individual installer menu..."
   i_individual
@@ -218,7 +218,7 @@ i_msfpro(){
 i_synaptic(){
   echo -e "Press [Enter] to install Synaptic Package Manager..."
   read
-  xterm -e "apt install synaptic -y ; bash"
+  xterm -e "apt install synaptic -y"
   echo -e "\Installation is complete!"
   echo -e "\nReturning to individual installer menu..."
   i_individual
@@ -246,8 +246,8 @@ i_java8(){
 i_tor(){
   echo -e "Press [Enter] to install tor services and browser bundle..."
   read
-  xterm -e "apt install tor -y ; bash"
-  xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/ ; bash"
+  xterm -e "apt install tor -y"
+  xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/"
   echo -e "\Installation is complete!"
   echo -e "\nReturning to individual installer menu..."
   i_individual
@@ -597,10 +597,10 @@ hydra_ssh_userlist(){
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
@@ -630,10 +630,10 @@ hydra_ssh_userdefined(){
   echo -e "\nEnter the SSH user."
   read user
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -l /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
@@ -700,10 +700,10 @@ hydra_web_userlist(){
   echo -e "\nEnter form submit or login field position."
   read login
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
@@ -744,10 +744,10 @@ hydra_web_userdefined(){
   echo -e "\nEnter form submit or login field position."
   read login
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -l $user -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
