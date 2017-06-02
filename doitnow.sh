@@ -604,19 +604,32 @@ hydra_ssh_userdefined(){
   read sshIP
   echo -e "\nEnter the SSH user."
   read user
-  echo -e "\nPick a wordlist."
-  echo -e "\nFor 10k type /opt/SecLists/Passwords/10k_most_common.txt"
-  echo -e "\nFor 100k type /opt/SecLists/Password/10_million_password_list_top_100000.txt"
-  echo -e "\nFor rockyou type /usr/share/wordlists/rockyou.txt"
-  echo -e "\nFor 1 million type /opt/SecLists/Password/10_million_password_list_top_1000000.txt"
+  echo -e "\nEnter the number for desired wordlist."
+  echo -e "\n1) For 10k most common"
+  echo -e "\n2) For 100k most common"
+  echo -e "\n3) For rockyou wordlist"
+  echo -e "\n4) For 1 million most common"
   read wordlist
-  echo "hydra -l $user -P $wordlist ssh://$sshIP"
-  hydra -l $user -P $wordlist ssh://$sshIP
-
-        read
- mainmenu
-
+  if [ $wordlist = 1 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
+    hydra -L $user -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP
+  elif [ $wordlist = 2 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP"
+    hydra -L $user -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP
+  elif [ $wordlist = 3 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP"
+    hydra -L $user -P /usr/share/wordlists/rockyou.txt ssh://$sshIP
+  elif [ $wordlist = 4 ]; then
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP"
+    hydra -L $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP
+  else
+    echo -e "\nInvalid Option!"
+    hydra_ssh_userdefined
+  fi
+	read
+  e_hydra
 }
+
 
 # Run the main menu
 mainmenu
