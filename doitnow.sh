@@ -7,6 +7,9 @@
 # Contains a few older scripts from besgood and n0logic as well as
 # a few great scripts from the community.
 
+# Import Global config.txt
+source config.txt
+
 # Function mainmenu - Main Menu, first function called.
 mainmenu(){
 while :
