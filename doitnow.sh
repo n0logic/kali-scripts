@@ -689,7 +689,7 @@ EOF
 
 # hydra web form with username list
 hydra_web_userlist(){
-  echo -e "\nPlease enter the base URL or IP."
+  echo -e "\nPlease enter the base URL or IP. Example URL: http://hack.me"
   read URL
   echo -e "\n Please enter the path to the form, example: /auth/login.php"
   read path
@@ -697,6 +697,8 @@ hydra_web_userlist(){
   read userfield
   echo -e "\nEnter password field position."
   read passfield
+  echo -e "\nEnter form submit or login field position."
+  read login
   echo -e "\nEnter the number for desired wordlist."
   echo -e "\n1) For 10k most common"
   echo -e "\n2) For 100k most common"
@@ -704,17 +706,17 @@ hydra_web_userlist(){
   echo -e "\n4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
   elif [ $wordlist = 2 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
   elif [ $wordlist = 3 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /usr/share/wordlists/rockyou.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /usr/share/wordlists/rockyou.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /usr/share/wordlists/rockyou.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /usr/share/wordlists/rockyou.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
   elif [ $wordlist = 4 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
+    hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
   else
     echo -e "\nInvalid Option!"
     hydra_web_userlist
@@ -727,7 +729,9 @@ hydra_web_userlist(){
 # hydra web form user defined
 hydra_web_userdefined(){
 
-  echo -e "\nPlease enter the URL or IP."
+
+  echo -e "\nPlease enter the URL or IP. Example URL: http://hack.me"
+
   read URL
   echo -e "\nPlease enter the path to form, example: /auth/login.php"
   read path
@@ -737,6 +741,8 @@ hydra_web_userdefined(){
   read userfield
   echo -e "\nEnter password field position."
   read passfield
+  echo -e "\nEnter form submit or login field position."
+  read login
   echo -e "\nEnter the number for desired wordlist."
   echo -e "\n1) For 10k most common"
   echo -e "\n2) For 100k most common"
@@ -744,17 +750,18 @@ hydra_web_userdefined(){
   echo -e "\n4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
-    echo "hydra -l $user -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -l $user -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -l $user -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
+    hydra -l $user -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
   elif [ $wordlist = 2 ]; then
-    echo "hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
+    hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
   elif [ $wordlist = 3 ]; then
-    echo "hydra -l $user -P /usr/share/wordlists/rockyou.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -l $user -P /usr/share/wordlists/rockyou.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -l $user -P /usr/share/wordlists/rockyou.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
+    hydra -l $user -P /usr/share/wordlists/rockyou.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
   elif [ $wordlist = 4 ]; then
-    echo "hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed' -V"
-    hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&Login=Login:Login failed" -V
+    echo "hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^$login=Login:Login failed' -V"
+    hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
+
   else
     echo -e "\nInvalid Option!"
     hydra_web_userdefined
