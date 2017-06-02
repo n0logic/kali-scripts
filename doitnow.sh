@@ -707,7 +707,9 @@ hydra_web_userlist(){
 # hydra web form user defined
 hydra_web_userdefined(){
 
+
   echo -e "\nPlease enter the URL or IP. Example URL: http://hack.me"
+
   read URL
   echo -e "\nPlease enter the path to form, example: /auth/login.php"
   read path
@@ -737,6 +739,7 @@ hydra_web_userdefined(){
   elif [ $wordlist = 4 ]; then
     echo "hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^$login=Login:Login failed' -V"
     hydra -l $user -P /opt/SecLists/Passwords/10_million_password_list_top_1000000.txt $url http-post-form "$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed" -V
+
   else
     echo -e "\nInvalid Option!"
     hydra_web_userdefined
