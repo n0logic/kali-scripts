@@ -2,5 +2,8 @@
 The personal Kali linux scripts for besgood and n0logic. 
 
 # ToDo
-add dirmngr install to java 8 installer for 2017.1 users
-close opented xterm windows on completion for software installs/updates.
+Add more global "Project" variables.
+Rework enum tools to use global "Project" vars
+Add menu for setting "Project" vars via user input
+Add global var for first time run
+Add runtime flags for menu shortcuts
