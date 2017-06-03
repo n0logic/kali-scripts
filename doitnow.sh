@@ -88,7 +88,7 @@ do
     Wireless Tools   (4)
     Discover Tools   (5)
     Hydra            (6)
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -117,21 +117,23 @@ do
     clear
     cat<<EOF
     ==============================
-    Software updates and setup
+    Software and system setup
     ------------------------------
     Please enter your choice:
 
     Run All Installers         (1)
     Individual Installers      (2)
-    Update and Upgrade Kali    (3)
-           (B)ack
+    System Settings            (3)
+    Update and Upgrade Kali    (4)
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
     "1")  i_everything ;;
     "2")  i_individual ;;
-    "3")  i_updatekali ;;
+    "3")  i_settings ;;
+    "4")  i_updatekali ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -166,7 +168,7 @@ do
     Exploit Package           (11)
     pwntools CTF Framework    (12)
 
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -191,6 +193,72 @@ EOF
     esac
     sleep 1
 done
+}
+
+# i_settings - Misc menu settings and shortcuts
+i_settings(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    System settings and shortcuts
+    ------------------------------
+    Please enter your choice:
+
+    Change root password       (1)
+    Create new sudo user       (2)
+    Update default SSH keys    (3)
+           (B)ack   (Q)uit
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  i_pwdroot ;;
+    "2")  i_sudoer ;;
+    "3")  i_sshkeys ;;
+    "B")  installmenu ;;
+    "b")  installmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 1
+done
+}
+
+# i_pwdroot - Change root password
+i_pwdroot(){
+  echo -e "Press [Enter] to change the root password..."
+  read
+  xterm -e "passwd root"
+  echo -e "Password changed successfully!"
+  echo -e "Returning to system settings menu..."
+  sleep 1
+  i_settings
+}
+
+# i_sudoer - Create new user and add to sudoer group
+i_sudoer(){
+  echo -e "Press [Enter] to create a new user..."
+  read
+  echo -e "Enter new username:"
+  read $iuser
+  xterm -e "adduser $iuser ; adduser $iuser sudo"
+  echo -e "User created successfully!"
+  echo -e "Returning to system settings menu..."
+  sleep 1
+  i_settings
+}
+
+# i_sshkeys - Change default SSH keys
+i_sshkeys(){
+  echo -e "Press [Enter] to change the default SSH keys..."
+  xterm -e "cd /etc/ssh/ && mkdir back ; mv ssh_host_* back ; dpkg-reconfigure openssh-server"
+  echo -e "SSH keys successfully updated!"
+  echo -e "Returning to system settings menu..."
+  sleep 1
+  i_settings
 }
 
 # i_gchrome - Installs Google Chrome 64bit
@@ -440,7 +508,7 @@ do
     End Monitoring             (3)
     wifite                     (4)
     fluxion                    (6)
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -538,7 +606,7 @@ do
     SSH                         (1)
     Web Form                    (2)
 
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -571,7 +639,7 @@ do
     User List                   (1)
     User Defined                (2)
 
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -667,7 +735,7 @@ do
     Please enter your choice:
     User List                   (1)
     User Defined                (2)
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
