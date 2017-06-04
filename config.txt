@@ -1,4 +1,0 @@
-# doitnow.sh Global Config file
-# ------------------------------
-
-INSTALLDIR=/opt/kali-scripts

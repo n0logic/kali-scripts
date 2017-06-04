@@ -8,7 +8,7 @@
 # a few great scripts from the community.
 
 # Import Global config.txt
-source config.txt
+source config
 
 # Function mainmenu - Main Menu, first function called.
 mainmenu(){
@@ -482,8 +482,7 @@ enumscript(){
     i=1
     for output in $( cat ./iplist.txt )
       do
-        echo -e "\nCreating results folder at $HOME/enumresults/$output/"
-        mkdir $HOME/enumresults/$output/
+        g_mkdir
         echo -e "\nRunning nmap -sV -sC $output in new tab"
         foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
         gnome-terminal tab -e "$foo"
@@ -496,8 +495,7 @@ enumscript(){
     elif [ $yornlist = y ]; then
       echo -e "\nEnter IP address for nmap scan:"
       read $output
-      echo -e "\nCreating results folder at $HOME/enumresults/$output/"
-      mkdir $HOME/enumresults/$output/
+      g_mkdir
       echo -e "\nRunning nmap -sV -sC $output in new tab"
       foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
       gnome-terminal tab -e "$foo"
@@ -511,10 +509,11 @@ enumscript(){
 # dirb function
 e_dirb(){
   echo -e "\nEnter URL for dirb (eg - https://www.google.com/images/):"
-  read dirburl
-  echo -e "\nRunning dirb $dirburl "
-  dirb $dirburl > $HOME/enumresults/$dirburl/dirb.txt
-  echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$dirburl/dirb.txt"
+  read output
+  g_mkdir
+  echo -e "\nRunning dirb $output "
+  dirb $output
+  echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$output/dirb.txt"
   pentools
 }
 
@@ -525,6 +524,7 @@ e_nikto(){
     i=1
     for output in $( cat ./iplist.txt )
       do
+        g_mkdir
         echo -e "\nEnter the webserver port:"
         read nport
         if ($nport = 443); then
@@ -542,6 +542,7 @@ e_nikto(){
       read output
       echo -e "Enter the webserver port:"
       read nport
+      g_mkdir
       if ($nport = 443); then
         echo -e "\nRunning nikto --host https://$output --port $nport"
         nikto --host https://$output --port $nport > $HOME/enumresults/$output/nikto-https.txt
@@ -557,11 +558,34 @@ e_nikto(){
 
 # enum4linux script
 e_e4l(){
-echo -e "\nRunning enum4linux -a $output "
-enum4linux -a $output>$HOME/enumresults/$output/enum4linux.txt
-echo -e "\nFinished with enum4linux scan! cat $HOME/enumresults/$output/enum4linux.txt"
-cat $HOME/enumresults/$output/enum4linux.txt
-pentools
+  echo -e "\nDo you want to enter an IP (y/n):"
+  read yornlist
+  if [ $yornlist = n ]; then
+    i=1
+    for output in $( cat ./iplist.txt )
+      do
+        g_mkdir
+        echo -e "\nRunning enum4linux -a $output in new tab"
+        foo="enum4linux -a $output > $HOME/enumresults/$output/enum4linux.txt"
+        gnome-terminal tab -e "$foo"
+        cat $HOME/enumresults/$output/enum4linux.txt
+      if (( i % 2 == 0 )); then  # pause every 2 iterations
+          read
+      fi
+      let "i++"
+    done
+  elif [ $yornlist = y ]; then
+    echo -e "\nEnter IP address for enum4linux scan:"
+    read $output
+    g_mkdir
+    echo -e "\nRunning enum4linux -a $output in new tab"
+    foo="enum4linux -a $output > $HOME/enumresults/$output/enum4linux.txt"
+    gnome-terminal tab -e "$foo"
+    cat $HOME/enumresults/$output/enum4linux.txt
+  else
+    echo -e "\nInvalid option"
+  fi
+  pentools
 }
 
 # Wireless tools Menu

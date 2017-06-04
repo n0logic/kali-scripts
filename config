@@ -1,0 +1,28 @@
+#!/bin/sh
+# doitnow.sh Global Config file
+# ------------------------------
+
+# Global Variables
+FIRSTRUN=FALSE
+INSTALLDIR=/opt/kali-scripts
+P_DIR=NULL
+
+# Global Functions
+
+# g_mkdir
+g_mkdir(){
+  if [ $P_DIR = NULL ]; then
+      echo -e "Pres [Enter] for deualt results folder ($HOME/enumresults/$output)"
+      read
+      if [ -d $HOME/enumresults/$output ]; then
+        P_DIR=$HOME/enumresults/$output
+        echo -e "Found existing directory! Skipping folder creation..."
+        sleep 1
+      else
+        mkdir $HOME/enumresults/$output
+        P_DIR=$HOME/enumresults/$output
+        echo -e "Created directory at $P_DIR..."
+        sleep 1
+      fi
+  fi
+}
