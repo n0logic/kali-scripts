@@ -8,7 +8,7 @@
 # a few great scripts from the community.
 
 # Import Global config.txt
-source config.txt
+source config
 
 # Function mainmenu - Main Menu, first function called.
 mainmenu(){
@@ -88,7 +88,7 @@ do
     Wireless Tools   (4)
     Discover Tools   (5)
     Hydra            (6)
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -117,21 +117,23 @@ do
     clear
     cat<<EOF
     ==============================
-    Software updates and setup
+    Software and system setup
     ------------------------------
     Please enter your choice:
 
     Run All Installers         (1)
     Individual Installers      (2)
-    Update and Upgrade Kali    (3)
-           (B)ack
+    System Settings            (3)
+    Update and Upgrade Kali    (4)
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
     "1")  i_everything ;;
     "2")  i_individual ;;
-    "3")  i_updatekali ;;
+    "3")  i_settings ;;
+    "4")  i_updatekali ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -163,10 +165,10 @@ do
     bleachbit Secure Erase    (08)
     VirtualBox                (09)
     openvas Setup             (10)
-    Exploit Package           (11)
+    Exploit Pack              (11)
     pwntools CTF Framework    (12)
 
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -193,13 +195,80 @@ EOF
 done
 }
 
+# i_settings - Misc menu settings and shortcuts
+i_settings(){
+while :
+do
+    clear
+    cat<<EOF
+    ==============================
+    System settings and shortcuts
+    ------------------------------
+    Please enter your choice:
+
+    Change root password       (1)
+    Create new sudo user       (2)
+    Update default SSH keys    (3)
+           (B)ack   (Q)uit
+    ------------------------------
+EOF
+    read -n1 -s
+    case "$REPLY" in
+    "1")  i_pwdroot ;;
+    "2")  i_sudoer ;;
+    "3")  i_sshkeys ;;
+    "B")  installmenu ;;
+    "b")  installmenu ;;
+    "Q")  exit                      ;;
+    "q")  exit   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 1
+done
+}
+
+# i_pwdroot - Change root password
+i_pwdroot(){
+  echo -e "Press [Enter] to change the root password..."
+  read
+  xterm -e "passwd root"
+  echo -e "Password changed successfully!"
+  echo -e "Returning to system settings menu..."
+  sleep 1
+  i_settings
+}
+
+# i_sudoer - Create new user and add to sudoer group
+i_sudoer(){
+  echo -e "Press [Enter] to create a new user..."
+  read
+  echo -e "Enter new username:"
+  read $iuser
+  xterm -e "adduser $iuser ; adduser $iuser sudo"
+  echo -e "User created successfully!"
+  echo -e "Returning to system settings menu..."
+  sleep 1
+  i_settings
+}
+
+# i_sshkeys - Change default SSH keys
+i_sshkeys(){
+  echo -e "Press [Enter] to change the default SSH keys..."
+  xterm -e "cd /etc/ssh/ && mkdir back ; mv ssh_host_* back ; dpkg-reconfigure openssh-server"
+  echo -e "SSH keys successfully updated!"
+  echo -e "Returning to system settings menu..."
+  sleep 1
+  i_settings
+}
+
 # i_gchrome - Installs Google Chrome 64bit
 i_gchrome(){
   echo -e "Press [Enter] to install the latest version of Chromium x64..."
   read
-  xterm -e "apt install chromium -y ; bash"
-  echo -e "\Installation is complete!"
-  echo -e "\nReturning to individual installer menu..."
+  xterm -e "apt install chromium -y"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
   i_individual
 }
 
@@ -207,10 +276,11 @@ i_gchrome(){
 i_msfpro(){
   echo -e "Press [Enter] to install the latest version of Metasploit Pro..."
   read
-  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run ;  bash"
-  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run ; bash"
-  echo -e "\Installation is complete!"
-  echo -e "\nReturning to individual installer menu..."
+  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run"
+  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
   i_individual
 }
 
@@ -218,9 +288,10 @@ i_msfpro(){
 i_synaptic(){
   echo -e "Press [Enter] to install Synaptic Package Manager..."
   read
-  xterm -e "apt install synaptic -y ; bash"
-  echo -e "\Installation is complete!"
-  echo -e "\nReturning to individual installer menu..."
+  xterm -e "apt install synaptic -y"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
   i_individual
 }
 
@@ -237,8 +308,9 @@ i_java8(){
   sudo apt update
   echo -e "\nInstalling Java 8 Installer..."
   sudo apt install oracle-java8-installer -y
-  echo -e "\Installation is complete!"
-  echo -e "\nReturning to individual installer menu..."
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
   i_individual
 }
 
@@ -246,10 +318,78 @@ i_java8(){
 i_tor(){
   echo -e "Press [Enter] to install tor services and browser bundle..."
   read
-  xterm -e "apt install tor -y ; bash"
-  xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/ ; bash"
-  echo -e "\Installation is complete!"
-  echo -e "\nReturning to individual installer menu..."
+  xterm -e "apt install tor -y"
+  xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
+  i_individual
+}
+
+# i_i386arch - Installs the i386 arch
+i_i386arch(){
+  echo -e "Press [Enter] to install i386 arch..."
+  read
+  xterm -e "dpkg --add-architecture i386"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
+  i_individual
+}
+
+# i_bleachbit - Installs bleachbit secure erase tools
+i_bleachbit(){
+  echo -e "Press [Enter] to install bleachbit secure erase tool..."
+  read
+  xterm -e "apt install bleachbit -y"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
+  i_individual
+}
+
+# i_virtualbox - Install VirtualBox
+i_virtualbox(){
+  echo -e "Press [Enter] to install VirtualBox..."
+  read
+  xterm -e "apt install virtualbox -y"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
+  i_individual
+}
+
+# i_openvas - Run the new openvas setup script
+i_openvas(){
+  echo -e "Press [Enter] to run the openvas setup script..."
+  read
+  xterm -e "apt install openvas -y ; openvas-setup ; bash"
+  echo -e "Installation is complete!"
+  echo -e "!!!BE SURE TO NOTE PASSWORD BEFORE CLOSING INSTALL WINDOW!!!"
+  echo -e "Returning to individual installer menu..."
+  sleep 5
+  i_individual
+}
+
+# i_exppack - Install the latest Exploit Package
+i_exppack(){
+  echo -e "Press [Enter] to install the latest Exploit Pack..."
+  read
+  xterm -e "wget https://github.com/juansacco/exploitpack/archive/master.zip ; unzip exploitpack-master.zip -d /opt/ ; cd /opt/exploitpack-master ; java -jar ExploitPack.jar"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
+  i_individual
+}
+
+# i_pwntools - Install the pwntools CTF Framework
+i_pwntools(){
+  echo -e "Press [Enter] to install the pwntools CTF framework..."
+  read
+  xterm -e "apt install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential ; pip install --upgrade pip ; pip install --upgrade pwntools"
+  echo -e "Installation is complete!"
+  echo -e "Returning to individual installer menu..."
+  sleep 1
   i_individual
 }
 
@@ -331,75 +471,121 @@ i_updatekali(){
 
 # enum.sh built in woohoo
 enumscript(){
-echo -e "n0logic's Enumerate o'matic!\n"
-echo -e "This script will read iplist from current directory and enumerate\n"
-echo -e "each host or IP in the file.\n"
-echo -e "Results will be saved to text documents in your home folder"
-echo -e "------------------------------------------------------------------\n"
-echo -e "\nDo you want to enter an IP (y/n):"
-read yornlist
-if [ $yornlist = n ]; then
-  i=1
-  for output in $( cat ./iplist.txt )
-    do
-      echo -e "\nCreating results folder at $HOME/enumresults/$output/"
-      mkdir $HOME/enumresults/$output/
+  echo -e "n0logic's Enumerate o'matic!\n"
+  echo -e "This script will read iplist from current directory and enumerate\n"
+  echo -e "each host or IP in the file.\n"
+  echo -e "Results will be saved to text documents in your home folder"
+  echo -e "------------------------------------------------------------------\n"
+  echo -e "\nDo you want to enter an IP (y/n):"
+  read yornlist
+  if [ $yornlist = n ]; then
+    i=1
+    for output in $( cat ./iplist.txt )
+      do
+        g_mkdir
+        echo -e "\nRunning nmap -sV -sC $output in new tab"
+        foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
+        gnome-terminal tab -e "$foo"
+        cat $HOME/enumresults/$output/nmap.txt
+        if (( i % 2 == 0 )); then  # pause every 2 iterations
+            read
+        fi
+        let "i++"
+      done
+    elif [ $yornlist = y ]; then
+      echo -e "\nEnter IP address for nmap scan:"
+      read $output
+      g_mkdir
       echo -e "\nRunning nmap -sV -sC $output in new tab"
       foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
       gnome-terminal tab -e "$foo"
       cat $HOME/enumresults/$output/nmap.txt
-      if (( i % 2 == 0 )); then  # pause every 2 iterations
-          read
-      fi
-      let "i++"
-    done
-elif [ $yornlist = y ]; then
-  echo -e "\nEnter IP address for nmap scan:"
-  read $output
-  echo -e "\nCreating results folder at $HOME/enumresults/$output/"
-  mkdir $HOME/enumresults/$output/
-  echo -e "\nRunning nmap -sV -sC $output in new tab"
-  foo="nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script 'default or (discovery)' $output > $HOME/enumresults/$output/nmap.txt"
-  gnome-terminal tab -e "$foo"
-  cat $HOME/enumresults/$output/nmap.txt
-else
-  echo -e "\nInvalid option"
-fi
-pentools
+    else
+      echo -e "\nInvalid option"
+    fi
+    pentools
 }
 
 # dirb function
 e_dirb(){
   echo -e "\nEnter URL for dirb (eg - https://www.google.com/images/):"
-  read dirburl
-  echo -e "\nRunning dirb $dirburl "
-  dirb $dirburl > $HOME/enumresults/$dirburl/dirb.txt
-  echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$dirburl/dirb.txt"
+  read output
+  g_mkdir
+  echo -e "\nRunning dirb $output "
+  dirb $output
+  echo -e "\nFinished with dirb scan! cat $HOME/enumresults/$output/dirb.txt"
   pentools
 }
 
 e_nikto(){
-  echo -e "\nEnter the webserver port:"
-  read nport
-  if ($nport = 443); then
-    echo -e "\nRunning nikto --host https://$output --port $nport"
-    nikto --host https://$output --port $nport > $HOME/enumresults/$output/nikto-https.txt
-    echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
-  else
-    echo -e "\nRunning nikto --host http://$output --port $nport"
-    nikto --host http://$output --port $nport > $HOME/enumresults/$output/nikto-http.txt
-    echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
-  fi
-  pentools
+  echo -e "\nDo you want to enter an IP (y/n):"
+  read yornlist
+  if [ $yornlist = n ]; then
+    i=1
+    for output in $( cat ./iplist.txt )
+      do
+        g_mkdir
+        echo -e "\nEnter the webserver port:"
+        read nport
+        if ($nport = 443); then
+          echo -e "\nRunning nikto --host https://$output --port $nport"
+          nikto --host https://$output --port $nport > $HOME/enumresults/$output/nikto-https.txt
+          echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
+        else
+          echo -e "\nRunning nikto --host http://$output --port $nport"
+          nikto --host http://$output --port $nport > $HOME/enumresults/$output/nikto-http.txt
+          echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
+        fi
+      done
+    elif [ $yornlist = y ]; then
+      echo -e "Enter the hostname or IP address:"
+      read output
+      echo -e "Enter the webserver port:"
+      read nport
+      g_mkdir
+      if ($nport = 443); then
+        echo -e "\nRunning nikto --host https://$output --port $nport"
+        nikto --host https://$output --port $nport > $HOME/enumresults/$output/nikto-https.txt
+        echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
+      else
+        echo -e "\nRunning nikto --host http://$output --port $nport"
+        nikto --host http://$output --port $nport > $HOME/enumresults/$output/nikto-http.txt
+        echo -e "\nFinished with nikto scan! cat $HOME/enumresults/$output/nikto.txt"
+      fi
+    fi
+    pentools
 }
 
 # enum4linux script
 e_e4l(){
-echo -e "\nRunning enum4linux -a $output "
-enum4linux -a $output>$HOME/enumresults/$output/enum4linux.txt
-echo -e "\nFinished with enum4linux scan! cat $HOME/enumresults/$output/enum4linux.txt"
-cat $HOME/enumresults/$output/enum4linux.txt
-pentools
+  echo -e "\nDo you want to enter an IP (y/n):"
+  read yornlist
+  if [ $yornlist = n ]; then
+    i=1
+    for output in $( cat ./iplist.txt )
+      do
+        g_mkdir
+        echo -e "\nRunning enum4linux -a $output in new tab"
+        foo="enum4linux -a $output > $HOME/enumresults/$output/enum4linux.txt"
+        gnome-terminal tab -e "$foo"
+        cat $HOME/enumresults/$output/enum4linux.txt
+      if (( i % 2 == 0 )); then  # pause every 2 iterations
+          read
+      fi
+      let "i++"
+    done
+  elif [ $yornlist = y ]; then
+    echo -e "\nEnter IP address for enum4linux scan:"
+    read $output
+    g_mkdir
+    echo -e "\nRunning enum4linux -a $output in new tab"
+    foo="enum4linux -a $output > $HOME/enumresults/$output/enum4linux.txt"
+    gnome-terminal tab -e "$foo"
+    cat $HOME/enumresults/$output/enum4linux.txt
+  else
+    echo -e "\nInvalid option"
+  fi
+  pentools
 }
 
 # Wireless tools Menu
@@ -418,7 +604,7 @@ do
     End Monitoring             (3)
     wifite                     (4)
     fluxion                    (6)
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -516,7 +702,7 @@ do
     SSH                         (1)
     Web Form                    (2)
 
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -549,7 +735,7 @@ do
     User List                   (1)
     User Defined                (2)
 
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -575,10 +761,10 @@ hydra_ssh_userlist(){
   echo -e "\nEnter the IP."
   read sshIP
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
@@ -608,10 +794,10 @@ hydra_ssh_userdefined(){
   echo -e "\nEnter the SSH user."
   read user
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -l /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt ssh://$sshIP"
@@ -645,7 +831,7 @@ do
     Please enter your choice:
     User List                   (1)
     User Defined                (2)
-           (B)ack
+           (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
@@ -678,10 +864,10 @@ hydra_web_userlist(){
   echo -e "\nEnter form submit or login field position."
   read login
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -L /opt/SecLists/Usernames/Names/name.txt -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
@@ -722,10 +908,10 @@ hydra_web_userdefined(){
   echo -e "\nEnter form submit or login field position."
   read login
   echo -e "\nEnter the number for desired wordlist."
-  echo -e "\n1) For 10k most common"
-  echo -e "\n2) For 100k most common"
-  echo -e "\n3) For rockyou wordlist"
-  echo -e "\n4) For 1 million most common"
+  echo -e "1) For 10k most common"
+  echo -e "2) For 100k most common"
+  echo -e "3) For rockyou wordlist"
+  echo -e "4) For 1 million most common"
   read wordlist
   if [ $wordlist = 1 ]; then
     echo "hydra -l $user -P /opt/SecLists/Passwords/10k_most_common.txt $url http-post-form '$path:$userfield=^USER^&$passfield=^PASS^&$login=Login:Login failed' -V"
