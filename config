@@ -27,4 +27,9 @@ g_mkdir(){
   fi
 }
 
-# 
+# g_reboot
+g_reboot(){
+  echo -e "Press [Enter] to reboot your system..."
+  read
+  sudo reboot
+}

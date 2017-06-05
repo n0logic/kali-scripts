@@ -62,7 +62,7 @@ EOF
     "3")  installmenu ;;
     "4")  echo "Not yet implemented" ;;
     "5")  echo "Not yet implemented" ;;
-    "6")  sudo reboot;;
+    "6")  g_reboot;;
     "Q")  exit                      ;;
     "q")  exit                      ;;
      * )  echo "invalid option"     ;;
