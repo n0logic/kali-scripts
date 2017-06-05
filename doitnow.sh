@@ -265,103 +265,145 @@ i_sshkeys(){
 
 # i_gchrome - Installs Google Chrome 64bit
 i_gchrome(){
-  echo -e "Press [Enter] to install the latest version of Chromium x64..."
-  read
-  xterm -e "apt install chromium -y"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip the latest version of Chromium x64..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "apt install chromium -y"
+    echo -e "Installation is complete!"
+  fi
 }
-
-xterm -e "apt install chromium synaptic tor  -y"
 
 # i_msfpro - Installs latest Metasploit Pro
 i_msfpro(){
-  echo -e "Press [Enter] to install the latest version of Metasploit Pro..."
-  read
-  xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run"
-  xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip the latest version of Metasploit Pro..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run"
+    xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_synaptic - Installs synaptic package manager
 i_synaptic(){
-  echo -e "Press [Enter] to install Synaptic Package Manager..."
-  read
-  xterm -e "apt install synaptic -y"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip Synaptic Package Manager..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "apt install synaptic -y"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_java8 - Installs Java 8 repos and installer
 i_java8(){
-  echo -e "Press [Enter] to install Java 8..."
-  read
-  echo -e "Adding Java 8 repositories to sources.list..."
-  echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list
-  echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" >> /etc/apt/sources.list
-  echo -e "\nAdding repositories keys to keystore..."
-  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
-  echo -e "\nUpdating package lists..."
-  sudo apt update
-  echo -e "\nInstalling Java 8 Installer..."
-  sudo apt install oracle-java8-installer -y
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip Java 8..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    echo -e "Adding Java 8 repositories to sources.list..."
+    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list
+    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" >> /etc/apt/sources.list
+    echo -e "\nAdding repositories keys to keystore..."
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+    echo -e "\nUpdating package lists..."
+    sudo apt update
+    echo -e "\nInstalling Java 8 Installer..."
+    sudo apt install oracle-java8-installer -y
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_tor - Installs tor and tor browser
 i_tor(){
-  echo -e "Press [Enter] to install tor services and browser bundle..."
-  read
-  xterm -e "apt install tor -y"
-  xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip tor services and browser bundle..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "apt install tor -y"
+    xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_i386arch - Installs the i386 arch
 i_i386arch(){
-  echo -e "Press [Enter] to install i386 arch..."
-  read
-  xterm -e "dpkg --add-architecture i386"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip i386 arch..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "dpkg --add-architecture i386"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_bleachbit - Installs bleachbit secure erase tools
 i_bleachbit(){
-  echo -e "Press [Enter] to install bleachbit secure erase tool..."
-  read
-  xterm -e "apt install bleachbit -y"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip bleachbit secure erase tool..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "apt install bleachbit -y"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_virtualbox - Install VirtualBox
 i_virtualbox(){
-  echo -e "Press [Enter] to install VirtualBox..."
-  read
-  xterm -e "apt install virtualbox -y"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip VirtualBox..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "apt install virtualbox -y"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_openvas - Run the new openvas setup script
 i_openvas(){
-  echo -e "Press [Enter] to run the openvas setup script..."
-  read
-  xterm -e "apt install openvas -y ; openvas-setup ; bash"
-  echo -e "Installation is complete!"
-  echo -e "!!!BE SURE TO NOTE PASSWORD BEFORE CLOSING INSTALL WINDOW!!!"
+  echo -e "Press [Enter] to run or [S] to skip the openvas setup script..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "apt install openvas -y ; openvas-setup ; bash"
+    echo -e "Installation is complete!"
+    echo -e "!!!BE SURE TO NOTE PASSWORD BEFORE CLOSING INSTALL WINDOW!!!"
+  fi
 }
 
 # i_exppack - Install the latest Exploit Package
 i_exppack(){
-  echo -e "Press [Enter] to install the latest Exploit Pack..."
-  read
-  xterm -e "wget https://github.com/juansacco/exploitpack/archive/master.zip ; unzip exploitpack-master.zip -d /opt/ ; cd /opt/exploitpack-master ; java -jar ExploitPack.jar"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip the latest Exploit Pack..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "wget https://github.com/juansacco/exploitpack/archive/master.zip ; unzip exploitpack-master.zip -d /opt/ ; cd /opt/exploitpack-master ; java -jar ExploitPack.jar"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_pwntools - Install the pwntools CTF Framework
 i_pwntools(){
-  echo -e "Press [Enter] to install the pwntools CTF framework..."
-  read
-  xterm -e "apt install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential ; pip install --upgrade pip ; pip install --upgrade pwntools"
-  echo -e "Installation is complete!"
+  echo -e "Press [Enter] to install or [S] to skip the pwntools CTF framework..."
+  read yorno
+  if [[ $yorno = [sS] ]]; then
+    echo -e "Skipping installation..."
+  else
+    xterm -e "apt install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential ; pip install --upgrade pip ; pip install --upgrade pwntools"
+    echo -e "Installation is complete!"
+  fi
 }
 
 # i_normal function - Install most software / tools
