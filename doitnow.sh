@@ -269,10 +269,9 @@ i_gchrome(){
   read
   xterm -e "apt install chromium -y"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
+
+xterm -e "apt install chromium synaptic tor  -y"
 
 # i_msfpro - Installs latest Metasploit Pro
 i_msfpro(){
@@ -281,9 +280,6 @@ i_msfpro(){
   xterm -e "wget https://downloads.metasploit.com/data/releases/metasploit-latest-linux-x64-installer.run"
   xterm -e "chmod +x metasploit-latest-linux-x64.run ; ./metasploit-latest-linux-x64.run"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_synaptic - Installs synaptic package manager
@@ -292,9 +288,6 @@ i_synaptic(){
   read
   xterm -e "apt install synaptic -y"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_java8 - Installs Java 8 repos and installer
@@ -311,9 +304,6 @@ i_java8(){
   echo -e "\nInstalling Java 8 Installer..."
   sudo apt install oracle-java8-installer -y
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_tor - Installs tor and tor browser
@@ -323,9 +313,6 @@ i_tor(){
   xterm -e "apt install tor -y"
   xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_i386arch - Installs the i386 arch
@@ -334,9 +321,6 @@ i_i386arch(){
   read
   xterm -e "dpkg --add-architecture i386"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_bleachbit - Installs bleachbit secure erase tools
@@ -345,9 +329,6 @@ i_bleachbit(){
   read
   xterm -e "apt install bleachbit -y"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_virtualbox - Install VirtualBox
@@ -356,9 +337,6 @@ i_virtualbox(){
   read
   xterm -e "apt install virtualbox -y"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_openvas - Run the new openvas setup script
@@ -368,9 +346,6 @@ i_openvas(){
   xterm -e "apt install openvas -y ; openvas-setup ; bash"
   echo -e "Installation is complete!"
   echo -e "!!!BE SURE TO NOTE PASSWORD BEFORE CLOSING INSTALL WINDOW!!!"
-  echo -e "Returning to individual installer menu..."
-  sleep 5
-  i_individual
 }
 
 # i_exppack - Install the latest Exploit Package
@@ -379,9 +354,6 @@ i_exppack(){
   read
   xterm -e "wget https://github.com/juansacco/exploitpack/archive/master.zip ; unzip exploitpack-master.zip -d /opt/ ; cd /opt/exploitpack-master ; java -jar ExploitPack.jar"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_pwntools - Install the pwntools CTF Framework
@@ -390,9 +362,6 @@ i_pwntools(){
   read
   xterm -e "apt install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential ; pip install --upgrade pip ; pip install --upgrade pwntools"
   echo -e "Installation is complete!"
-  echo -e "Returning to individual installer menu..."
-  sleep 1
-  i_individual
 }
 
 # i_normal function - Install most software / tools
