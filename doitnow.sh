@@ -460,8 +460,8 @@ i_updatekali(){
   echo -e "Press [Enter] to begin updating Kali repositories and installing system updates..."
   read
   xterm -e "apt update ; bash"
-  xterm -e "apt upgrade ; bash"
-  xterm -e "apt dist-upgrade ; bash"
+  xterm -e "apt upgrade -y; bash"
+  xterm -e "apt dist-upgrade -y; bash"
   echo -e "\nUpdates are complete!"
   echo -e "\nReturning to software menu..."
   sleep 1
