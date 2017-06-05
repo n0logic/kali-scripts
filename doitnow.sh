@@ -471,15 +471,15 @@ i_everything(){
 
  fi
 
-  if [ -d /opt/SecLists/.git ]; then
-	echo -e "Updating Seclist."
-	cd /opt/SecLists/ ; git pull
-  else
+ if [ -d /opt/SecLists/.git ]; then
+   echo -e "Updating Seclist."
+	 cd /opt/SecLists/ ; git pull
+ else
 	echo -e "\nInstalling Daniel Miessler SecList."
 	git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
 	read -p "Press <enter> to continue."
 	echo
-  fi
+ fi
 
   bash /opt/discover/update.sh
   if [ -d /opt/kali-scripts/.git ]; then
@@ -515,7 +515,17 @@ i_everything(){
        echo
   fi
   read -p "Press Enter to Continue"
-  # End Here
+  i_gchrome
+  i_tor
+  i_msfpro
+  i_synaptic
+  i_java8
+  i_i386arch
+  i_bleachbit
+  i_virtualbox
+  i_openvas
+  i_exppack
+  i_pwntools
   installmenu
 }
 
