@@ -121,19 +121,21 @@ do
     ------------------------------
     Please enter your choice:
 
-    Run All Installers         (1)
-    Individual Installers      (2)
-    System Settings            (3)
-    Update and Upgrade Kali    (4)
+    Normal Installer           (1)
+    Everything Installer       (2)
+    Individual Installers      (3)
+    System Settings            (4)
+    Update and Upgrade Kali    (5)
            (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
-    "1")  i_everything ;;
-    "2")  i_individual ;;
-    "3")  i_settings ;;
-    "4")  i_updatekali ;;
+    "1")  i_normal ;;
+    "2")  i_everything ;;
+    "3")  i_individual ;;
+    "4")  i_settings ;;
+    "5")  i_updatekali ;;
     "B")  mainmenu ;;
     "b")  mainmenu ;;
     "Q")  exit                      ;;
@@ -393,7 +395,69 @@ i_pwntools(){
   i_individual
 }
 
-# i_everything function - Install most software / tools
+# i_normal function - Install most software / tools
+i_normal(){
+  if [ -d /opt/discover/.git ]; then
+       echo -e "\nUpdating Lee Baird Discover Script."
+       cd /opt/discover/ ; git pull
+       echo
+  else
+       echo -e "\nInstalling Lee Baird Discover Script to /opt/discover/"
+       git clone https://github.com/leebaird/discover.git /opt/discover
+       read -p "Press <enter> to continue."
+       echo
+
+ fi
+
+  if [ -d /opt/SecLists/.git ]; then
+	echo -e "Updating Seclist."
+	cd /opt/SecLists/ ; git pull
+  else
+	echo -e "\nInstalling Daniel Miessler SecList."
+	git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
+	read -p "Press <enter> to continue."
+	echo
+  fi
+
+  bash /opt/discover/update.sh
+  if [ -d /opt/kali-scripts/.git ]; then
+      echo -e"Updating doitnow script."
+      cd /opt/kali-scripts/ ; git pull
+      echo
+      read
+  else
+      echo -e "\nEnter the directory doitnow is located in."
+      read -er path
+      cd $path ; git pull
+      read
+  fi
+  # More added 5/30/2017
+  if [ -d /opt/DeathStar/.git ]; then
+       echo -e "\e[1;34mUpdating DeathStar.\e[0m"
+       cd /opt/DeathStar/ ; git pull
+       echo
+  else
+       echo -e "\e[1;33mInstalling DeathStar.\e[0m"
+       git clone https://github.com/byt3bl33d3r/DeathStar.git /opt/DeathStar
+       echo
+  fi
+
+  if [ -d /opt/fluxion/.git ]; then
+       echo -e "\e[1;34mUpdating fluxion WiFi Hacking Toolkit.\e[0m"
+       cd /opt/fluxion/ ; git pull
+       echo
+  else
+       echo -e "\e[1;33mInstalling fluxion WiFi Hacking Toolkit.\e[0m"
+       git clone https://github.com/wi-fi-analyzer/fluxion.git /opt/fluxion
+       cd /opt/fluxion/ ; ./Installer.sh
+       echo
+  fi
+  read -p "Press Enter to Continue"
+  # End Here
+  installmenu
+}
+
+# i_everything function - Run all software / tools installers
 i_everything(){
   if [ -d /opt/discover/.git ]; then
        echo -e "\nUpdating Lee Baird Discover Script."
