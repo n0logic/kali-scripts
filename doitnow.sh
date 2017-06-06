@@ -327,8 +327,7 @@ i_tor(){
   if [[ $yorno = [sS] ]]; then
     echo -e "Skipping installation..."
   else
-    xterm -e "apt install tor -y"
-    xterm -e "wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/"
+    xterm -e "apt install tor -y ; wget https://www.torproject.org/dist/torbrowser/6.5.2/tor-browser-linux64-6.5.2_en-US.tar.xz ; tar xvf tor-browser-linux64-6.5.2_en-US.tar.xz -C $HOME/Desktop/"
     echo -e "Installation is complete!"
   fi
 }
