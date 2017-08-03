@@ -157,36 +157,36 @@ do
     ------------------------------
     Please enter your choice:
 
-    Chromium Browser          (01)
-    tor                       (02)
-    burpsuite pro             (03)
-    Metasploit Pro            (04)
-    Synaptic Package Manager  (05)
-    Java 8 Installer          (06)
-    i386 arch                 (07)
-    bleachbit Secure Erase    (08)
-    VirtualBox                (09)
-    openvas Setup             (10)
-    Exploit Pack              (11)
-    pwntools CTF Framework    (12)
+    Chromium Browser          (0)
+    tor                       (1)
+    burpsuite pro             (2)
+    Metasploit Pro            (3)
+    Synaptic Package Manager  (4)
+    Java 8 Installer          (5)
+    i386 arch                 (6)
+    bleachbit Secure Erase    (7)
+    VirtualBox                (8)
+    openvas Setup             (9)
+    Exploit Pack              (e)
+    pwntools CTF Framework    (p)
 
            (B)ack   (Q)uit
     ------------------------------
 EOF
     read -n1 -s
     case "$REPLY" in
-    "1")  i_gchrome ;;
-    "2")  i_tor ;;
-    "3")  echo -e "\nNot yet implemented" ;;
-    "4")  i_msfpro ;;
-    "5")  i_synaptic ;;
-    "6")  i_java8 ;;
-    "7")  i_i386arch ;;
-    "8")  i_bleachbit ;;
-    "9")  i_virtualbox ;;
-    "10")  i_openvas ;;
-    "11")  i_exppack ;;
-    "12")  i_pwntools ;;
+    "0")  i_gchrome ;;
+    "1")  i_tor ;;
+    "2")  echo -e "\nNot yet implemented" ;;
+    "3")  i_msfpro ;;
+    "4")  i_synaptic ;;
+    "5")  i_java8 ;;
+    "6")  i_i386arch ;;
+    "7")  i_bleachbit ;;
+    "8")  i_virtualbox ;;
+    "9")  i_openvas ;;
+    "e")  i_exppack ;;
+    "p")  i_pwntools ;;
     "B")  installmenu ;;
     "b")  installmenu ;;
     "Q")  exit                      ;;
